@@ -4,7 +4,7 @@ import { Box, Button, Container } from '@mui/material';
 
 function App() {
   const [isUploadModalOpened, setIsUploadModalOpened] = useState<boolean>(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [_data, setData] = useState<[Array<string>, Array<string>]>([[], []]);
 
   const onUploadCsvClick = () => {
     setIsUploadModalOpened(true);
@@ -20,9 +20,8 @@ function App() {
 
         <FileUploadForm
           open={isUploadModalOpened}
-          file={file}
           setOpen={setIsUploadModalOpened}
-          setFile={setFile}
+          setData={setData}
         />
       </Box>
     </Container>

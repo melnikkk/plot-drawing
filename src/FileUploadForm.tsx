@@ -1,15 +1,16 @@
 import { FC, useState, useActionState } from 'react';
-import { Box, Button, Modal, Paper, Stack, Typography } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
+import Papa from 'papaparse';
+import { Box, Button, Modal, Paper, Stack, Typography } from '@mui/material';
 
 interface Props {
   open: boolean;
-  file: File | null;
-  setFile: (file: File | null) => void;
+  setData: (data: [Array<string>, Array<string>]) => void;
   setOpen: (open: boolean) => void;
 }
 
-export const FileUploadForm: FC<Props> = ({ open, setFile, file, setOpen }) => {
+export const FileUploadForm: FC<Props> = ({ open, setData, setOpen }) => {
+  const [file, setFile] = useState<File | null>(null);
   const [_fileError, setFileError] = useState<string | null>(null);
 
   const closeModal = () => setOpen(false);
@@ -32,13 +33,30 @@ export const FileUploadForm: FC<Props> = ({ open, setFile, file, setOpen }) => {
 
   const handleFileUpload = () => {
     if (file) {
-      const reader = new FileReader();
+      Papa.parse(file, {
+        delimiter: ';',
+        newline: '',
+        skipEmptyLines: true,
+        complete: (result: { data: Array<[string]> }) => {
+          const data = result.data.reduce(
+            (acc, dataString) => {
+              const splitDataString = dataString[0].split(',');
 
-      reader.onload = (e) => {
-        console.log('File Content:', e.target?.result);
-      };
+              if (splitDataString[0] && splitDataString[1]) {
+                acc[0].push(splitDataString[0]);
+                acc[1].push(splitDataString[1]);
+              }
+              return acc;
+            },
+            [[], []] as [Array<string>, Array<string>],
+          );
 
-      reader.readAsText(file);
+          setData(data);
+        },
+        error(e) {
+          console.log('Parsing error: ', e);
+        },
+      });
     }
 
     closeModal();
