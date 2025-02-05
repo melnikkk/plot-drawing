@@ -1,18 +1,25 @@
+import { FC } from 'react';
 import { ChartContainer, ChartsXAxis, ChartsYAxis, LinePlot } from '@mui/x-charts';
+import { ChartData } from './types';
+import { downsampleData } from './utils';
 
-export const Chart = () => {
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+interface Props {
+  data: ChartData;
+}
 
-  return (
+export const Chart: FC<Props> = ({ data }) => {
+  const sampledData = downsampleData(data, 10);
+
+  return sampledData[0]?.length ? (
     <ChartContainer
       width={500}
       height={300}
-      series={[{ data, type: 'line' }]}
-      xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7, 8, 9] }]}
+      series={[{ data: sampledData[1], type: 'line' }]}
+      xAxis={[{ data: sampledData[0] }]}
     >
       <LinePlot />
       <ChartsXAxis />
       <ChartsYAxis />
     </ChartContainer>
-  );
+  ) : null;
 };
