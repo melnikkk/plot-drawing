@@ -1,10 +1,12 @@
 import { FileUploadForm } from './FileUploadForm.tsx';
 import { useState } from 'react';
 import { Box, Button, Container } from '@mui/material';
+import { Chart } from './Chart';
+import { ChartData } from './types';
 
 function App() {
   const [isUploadModalOpened, setIsUploadModalOpened] = useState<boolean>(false);
-  const [_data, setData] = useState<[Array<string>, Array<string>]>([[], []]);
+  const [data, setData] = useState<ChartData>([[], []]);
 
   const onUploadCsvClick = () => {
     setIsUploadModalOpened(true);
@@ -24,6 +26,7 @@ function App() {
           setData={setData}
         />
       </Box>
+      <Chart data={data} />
     </Container>
   );
 }
