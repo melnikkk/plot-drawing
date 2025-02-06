@@ -76,3 +76,20 @@ export const downsampleData = (
 
   return [sampledX, sampledY];
 };
+
+export const sliceData = (data: ChartData, from: number, to: number): ChartData => {
+  const [xValues, yValues] = data;
+
+  const slicedXValues = xValues.slice(from, to + 1);
+  const slicedYValues = yValues.slice(from, to + 1);
+
+  return [slicedXValues, slicedYValues];
+};
+
+export const formatNumber = (num: number): string => {
+  return num.toLocaleString();
+};
+
+export const parseNumericInput = (value: string): string => {
+  return value.replace(/\D/g, '');
+};

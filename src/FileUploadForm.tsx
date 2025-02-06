@@ -102,11 +102,22 @@ export const FileUploadForm: FC<Props> = ({ open, setData, setOpen }) => {
               {...getRootProps()}
             >
               <input {...getInputProps()} />
-              <Typography color="secondary">
-                {isDragActive
-                  ? 'Drop the files here ...'
-                  : 'Drag and drop a file here, or click to select file'}
-              </Typography>
+              {file ? (
+                <>
+                  <Typography fontWeight="bold" color="secondary">
+                    File uploaded
+                  </Typography>
+                  <Typography color="secondary">
+                    Drag and drop a file here, or click to select another file
+                  </Typography>
+                </>
+              ) : (
+                <Typography color="secondary">
+                  {isDragActive
+                    ? 'Drop the files here ...'
+                    : 'Drag and drop a file here, or click to select file'}
+                </Typography>
+              )}
             </Paper>
             <Stack direction="row" justifyContent="space-between" width="100%">
               <Button
