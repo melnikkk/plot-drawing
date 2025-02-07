@@ -12,7 +12,7 @@ interface Props {
 
 export const Chart: FC<Props> = ({ data, startPoint, endPoint }) => {
   const slicedData = sliceData(data, startPoint, endPoint);
-  const sampledData = downsampleData(slicedData, 10);
+  const sampledData = downsampleData(slicedData, 100);
 
   return (
     <Box>
