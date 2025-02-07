@@ -52,7 +52,7 @@ export const FileUploadForm: FC<Props> = ({ open, setData, setOpen }) => {
             },
             [[], []] as ChartData,
           );
-          debugger;
+
           setData(data);
         },
         error(e) {
