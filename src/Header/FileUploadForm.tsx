@@ -2,7 +2,7 @@ import { FC, useState, useActionState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
 import { Box, Button, Modal, Paper, Stack, Typography } from '@mui/material';
-import { ChartData } from './types';
+import { ChartData } from '../types';
 
 interface Props {
   open: boolean;

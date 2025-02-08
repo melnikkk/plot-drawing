@@ -2,6 +2,7 @@ import globals from 'globals';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import reactCompiler from '@react-compiler/eslint-plugin';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -25,5 +26,13 @@ export default tseslint.config(
   },
   {
     rules: { '@typescript-eslint/array-type': ['error', { default: 'generic' }] },
+  },
+  {
+    plugins: {
+      'react-compiler': reactCompiler,
+    },
+    rules: {
+      'react-compiler/react-compiler': 'error',
+    },
   },
 );

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, useCallback } from 'react';
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { formatNumber, parseNumericInput } from './utils';
 
@@ -31,50 +31,62 @@ export const ChartControls: FC<Props> = ({
   onRunClick,
   onResetClick,
 }) => {
-  const handleStartChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = parseNumericInput(event.target.value);
-    const numberedValue = Number(value);
+  const handleStartChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = parseNumericInput(event.target.value);
+      const numberedValue = Number(value);
 
-    if (!isNaN(numberedValue)) {
-      onStartPointChange(numberedValue);
-    }
-  };
+      if (!isNaN(numberedValue)) {
+        onStartPointChange(numberedValue);
+      }
+    },
+    [onStartPointChange],
+  );
 
-  const handleEndChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = parseNumericInput(event.target.value);
-    const numberedValue = Number(value);
-    const isValid = !isNaN(numberedValue) && numberedValue <= dataSize;
+  const handleEndChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = parseNumericInput(event.target.value);
+      const numberedValue = Number(value);
+      const isValid = !isNaN(numberedValue) && numberedValue <= dataSize;
 
-    if (isValid) {
-      onEndPointChange(numberedValue);
-    }
-  };
+      if (isValid) {
+        onEndPointChange(numberedValue);
+      }
+    },
+    [onEndPointChange, dataSize],
+  );
 
-  const handleStepDelayChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = parseNumericInput(event.target.value);
-    const numberedValue = Number(value);
+  const handleStepDelayChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = parseNumericInput(event.target.value);
+      const numberedValue = Number(value);
 
-    if (!isNaN(numberedValue)) {
-      onStepDelayChange(numberedValue);
-    }
-  };
+      if (!isNaN(numberedValue)) {
+        onStepDelayChange(numberedValue);
+      }
+    },
+    [onStepDelayChange],
+  );
 
-  const handleStepSizeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = parseNumericInput(event.target.value);
-    const numberedValue = Number(value);
+  const handleStepSizeChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = parseNumericInput(event.target.value);
+      const numberedValue = Number(value);
 
-    if (!isNaN(numberedValue)) {
-      onStepSizeChange(numberedValue);
-    }
-  };
+      if (!isNaN(numberedValue)) {
+        onStepSizeChange(numberedValue);
+      }
+    },
+    [onStepSizeChange],
+  );
 
-  const handleRunClick = () => {
+  const handleRunClick = useCallback(() => {
     onRunClick(!isRunning);
-  };
+  }, [onRunClick, isRunning]);
 
-  const handleResetClick = () => {
+  const handleResetClick = useCallback(() => {
     onResetClick();
-  };
+  }, [onResetClick]);
 
   return (
     <Paper elevation={2} sx={{ padding: 2 }}>
