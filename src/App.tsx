@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
-import { FileUploadForm } from './FileUploadForm.tsx';
+import { FileUploadForm } from './FileUploadForm';
 import { Chart } from './Chart';
 import { ChartData } from './types';
 import { ChartControls } from './ChartControls';
@@ -10,6 +10,8 @@ import {
   DEFAULT_STEP_DELAY,
   DEFAULT_STEP_SIZE,
 } from './constants';
+import { sliceData } from './utils';
+import { ChartAnalyticData } from './ChartAnalyticData';
 
 function App() {
   const [isUploadModalOpened, setIsUploadModalOpened] = useState<boolean>(false);
@@ -23,6 +25,11 @@ function App() {
   const [data, setData] = useState<ChartData>([[], []]);
 
   const dataSize = data[0].length;
+
+  const slicedData = useMemo(
+    () => sliceData(data, startPoint, endPoint),
+    [data, startPoint, endPoint],
+  );
 
   const onUploadCsvClick = () => {
     setIsUploadModalOpened(true);
@@ -76,26 +83,30 @@ function App() {
       {dataSize > 0 ? (
         <Box
           maxWidth={980}
-          margin="auto"
+          margin="20px auto"
           display="flex"
           justifyContent="space-between"
-          alignItems="center"
         >
-          <Chart data={data} startPoint={startPoint} endPoint={endPoint} />
-          <ChartControls
-            isRunning={isRunning}
-            startPoint={startPoint}
-            endPoint={endPoint}
-            stepDelay={stepDelay}
-            stepSize={stepSize}
-            dataSize={dataSize}
-            onStartPointChange={setStartPoint}
-            onEndPointChange={setEndPoint}
-            onStepDelayChange={setStepDelay}
-            onStepSizeChange={setStepSize}
-            onRunClick={setIsRunning}
-            onResetClick={reset}
-          />
+          <Box>
+            <Chart data={slicedData} />
+            <ChartAnalyticData data={slicedData} />
+          </Box>
+          <Box>
+            <ChartControls
+              isRunning={isRunning}
+              startPoint={startPoint}
+              endPoint={endPoint}
+              stepDelay={stepDelay}
+              stepSize={stepSize}
+              dataSize={dataSize}
+              onStartPointChange={setStartPoint}
+              onEndPointChange={setEndPoint}
+              onStepDelayChange={setStepDelay}
+              onStepSizeChange={setStepSize}
+              onRunClick={setIsRunning}
+              onResetClick={reset}
+            />
+          </Box>
         </Box>
       ) : null}
     </Container>
