@@ -2,17 +2,14 @@ import { FC } from 'react';
 import { ChartContainer, ChartsXAxis, ChartsYAxis, LinePlot } from '@mui/x-charts';
 import { Box } from '@mui/material';
 import { ChartData } from './types';
-import { downsampleData, sliceData } from './utils';
+import { downsampleData } from './utils';
 
 interface Props {
   data: ChartData;
-  startPoint: number;
-  endPoint: number;
 }
 
-export const Chart: FC<Props> = ({ data, startPoint, endPoint }) => {
-  const slicedData = sliceData(data, startPoint, endPoint);
-  const sampledData = downsampleData(slicedData, 100);
+export const Chart: FC<Props> = ({ data }) => {
+  const sampledData = downsampleData(data, 100);
 
   return (
     <Box>
