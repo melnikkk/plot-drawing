@@ -1,6 +1,7 @@
 import { useEffect, useState, useTransition } from 'react';
 import { ChartData } from '../types';
-import { sliceData, downsampleData } from '../ChartContent/utils';
+import { downsampleData } from '../utils';
+import { sliceData } from '../utils';
 
 export function useChartData(data: ChartData, startPoint: number, endPoint: number) {
   const [_isPending, startTransition] = useTransition();
