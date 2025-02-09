@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState, useCallback } from 'react';
+import { FC, useEffect, useState, useCallback } from 'react';
 import { Box } from '@mui/material';
 import { Chart } from './Chart';
 import { ChartAnalyticData } from './ChartAnalyticData';
